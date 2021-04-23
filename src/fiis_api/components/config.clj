@@ -5,13 +5,15 @@
 (defn- normalize-map
   "normalize keys in a map lowercasing them and transforming into kebab-case"
   [subject]
-  (map
-   (fn [[key val]]
-     (-> key
-         s/lower-case
-         (s/replace key #"[ _]" "-")
-         [key val]))
-   subject))
+  (into {} (map
+            (fn [[key val]]
+              (let [key (-> key
+                            s/lower-case
+                            (s/replace #"[ _]" "-")
+                            (s/replace "fii-api-", "")
+                            keyword)]
+                [key val]))
+            subject)))
 
 (defrecord Config [config data]
   component/Lifecycle
