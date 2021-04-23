@@ -9,10 +9,10 @@
 
   (start [component]
     (let [config (:config component)
-          host (:database-host config)
-          user (:database-user config)
-          database (:database-name config)
-          password (:database-password config)
+          host (get-in config [:data :database-host])
+          user (get-in config [:data :database-user])
+          database (get-in config [:data :database-name])
+          password (get-in config [:data :database-password])
           db-component (connection/component ComboPooledDataSource {:dbtype "postgresql"
                                                                     :dbname database
                                                                     :host host
