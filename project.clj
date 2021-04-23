@@ -14,6 +14,7 @@
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler fiis-api.handler/app}
+  :main fiis-api.server
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.2"]]}})
