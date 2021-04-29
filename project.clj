@@ -6,6 +6,7 @@
                  [compojure "1.6.1"]
                  [ring/ring-jetty-adapter "1.8.2"]
                  [ring/ring-defaults "0.3.2"]
+                 [ring/ring-json "0.5.1"]
                  [com.stuartsierra/component "1.0.0"]
                  [prismatic/schema "1.1.12"]
                  [honeysql "1.0.461"]
