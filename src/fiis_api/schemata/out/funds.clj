@@ -5,5 +5,3 @@
            :name s/Str
            :document s/Str
            :dy s/Num})
-
-(def FundList [Fund])
