@@ -1,7 +1,7 @@
 (ns fiis-api.handler-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
-            [fiis-api.handler :refer :all]))
+            [fiis-api.service :refer [app]]))
 
 (deftest test-app
   (testing "main route"
