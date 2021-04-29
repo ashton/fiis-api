@@ -21,17 +21,11 @@
   [handler deps]
   (fn [req] (handler (assoc req :deps deps))))
 
-(defn- wrap-auto-reload
-  [handler]
-  (if (-> (= (get (System/getenv) "APP_ENV") "DEV"))
-    (wrap-reload handler)
-    handler))
-
 (defn app
   [deps]
   (-> app-routes
       (assoc-deps-middleware deps)
-      (wrap-auto-reload)
+      (wrap-reload #'app-routes)
       (wrap-json-body {:keywords? true :bigdecimals true})
       wrap-json-response
       (wrap-defaults api-defaults)))
