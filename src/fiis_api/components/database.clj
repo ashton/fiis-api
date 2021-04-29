@@ -4,7 +4,7 @@
 
   (:import (com.mchange.v2.c3p0 ComboPooledDataSource)))
 
-(defrecord Database [config next-component database]
+(defrecord Database [config next-component ds]
   component/Lifecycle
 
   (start [component]
@@ -19,7 +19,7 @@
                                                                     :user user
                                                                     :password password})]
       (assoc component :next-component db-component)
-      (assoc component :database (component/start db-component))))
+      (assoc component :ds (component/start db-component))))
 
   (stop [component]
     (component/stop (:next-component component))))
