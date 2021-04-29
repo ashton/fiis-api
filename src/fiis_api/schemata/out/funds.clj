@@ -3,5 +3,5 @@
 
 (def Fund {:code s/Str
            :name s/Str
-           :document s/Str
-           :dy s/Num})
+           (s/optional-key :document) s/Str
+           (s/optional-key :dy) s/Num})

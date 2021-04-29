@@ -9,9 +9,10 @@
 
 (s/defn list-all :- [Fund]
   [db]
-  (let [execute! (partial jdbc/execute! (db))]
-    (-> (sql/select :name :code :dy)
-        (sql/from :funds)
-        build
-        (execute! {:builder-fn result-set/as-unqualified-lower-maps})
-        adapter/db->internal)))
+  (let [execute! (partial jdbc/execute! (db))
+        result (-> (sql/select :name :code :dy)
+                   (sql/from :funds)
+                   build
+                   (execute! {:builder-fn result-set/as-unqualified-lower-maps})
+                   (doto println))]
+    (map adapter/db->internal result)))
