@@ -11,7 +11,7 @@
       (let [options (-> options (assoc :join? false))
             app (:app component)
             handler (atom (delay (:handler app)))
-            server (jetty/run-jetty (fn [req] (@@handler req)) options)]
+            server (jetty/run-jetty @@handler options)]
         (assoc component
                :server server
                :handler handler))))
