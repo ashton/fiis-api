@@ -1,9 +1,9 @@
 (ns fiis-api.service
-  (:require [fiis-api.controllers.funds :as controller]
-            [compojure.core :refer [defroutes context GET]]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
-            [ring.middleware.reload :refer [wrap-reload]]
-            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]))
+  (:require [reitit.ring :as ring]
+            [reitit.coercion.schema :as schema]
+            [reitit.ring.coercion :as coercion]
+            [fiis-api.controllers.funds :as controller]
+            [fiis-api.schemata.out.funds :as s.out]))
 
 (defn list-funds
   [{deps :deps}]
@@ -12,20 +12,17 @@
     {:status 200
      :body result}))
 
-(defroutes app-routes
-  (context "/api" []
-    (context "/funds" []
-      (GET "/" request (list-funds request)))))
-
-(defn- assoc-deps-middleware
+(defn- wrap-deps
+  "add system dependencies to the request"
   [handler deps]
   (fn [req] (handler (assoc req :deps deps))))
 
-(defn app
+(defn new-app
   [deps]
-  (-> app-routes
-      (assoc-deps-middleware deps)
-      (wrap-reload #'app-routes)
-      (wrap-json-body {:keywords? true :bigdecimals true})
-      wrap-json-response
-      (wrap-defaults api-defaults)))
+  (ring/ring-handler
+   (ring/router ["/api"
+                 ["/funds" {:name ::funds-list
+                            :get list-funds
+                            :response [s.out/Fund]}]]
+                {:data {:middleware [[wrap-deps deps]]
+                        :coercion schema/coercion}})))
