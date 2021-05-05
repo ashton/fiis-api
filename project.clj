@@ -5,6 +5,7 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [metosin/reitit-core "0.5.13"]
                  [metosin/reitit-ring "0.5.13"]
+                 [ring "1.9.3"]
                  [metosin/reitit-schema "0.5.13"]
                  [metosin/reitit-middleware "0.5.13"]
                  [metosin/reitit-swagger-ui "0.5.13"]
