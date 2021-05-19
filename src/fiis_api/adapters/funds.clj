@@ -1,5 +1,8 @@
 (ns fiis-api.adapters.funds
-  (:require [schema.coerce :as s]
-            [fiis-api.schemata.out.funds :as s.out]))
+  (:require [schema.core :as s]
+            [fiis-api.schemata.out.funds :as schema.out]
+            [fiis-api.models.funds :as schema.model]))
 
-(def db->internal (s/coercer s.out/Fund s/json-coercion-matcher))
+(s/defn model->external :- schema.out/Fund
+  [fund] :- schema.model/Fund
+  (assoc fund :quota_amount (:quota-amount fund)))

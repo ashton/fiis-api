@@ -1,24 +1,22 @@
 (ns fiis-api.db.postgres.funds
-  (:require [honeysql.format :refer [format] :rename {format build}]
+  (:require [fiis-api.schemata.postgres.funds :as schema]
+            [honeysql.format :refer [format] :rename {format build}]
             [honeysql.helpers :as sql]
             [next.jdbc :as jdbc]
             [next.jdbc.result-set :as result-set]
-            [schema.core :as s]
-            [fiis-api.schemata.out.funds :as s.out]
-            [fiis-api.schemata.in.funds :as s.in]
-            [fiis-api.adapters.funds :as adapter]))
+            [next.jdbc.sql :as jdbc-sql]
+            [schema.core :as s]))
 
-(s/defn list-all :- [s.out/Fund]
+(s/defn list-all :- [schema/Fund]
   [db]
-  (let [execute! (partial jdbc/execute! (db))
-        result (-> (sql/select :name :code :dy)
-                   (sql/from :funds)
-                   build
-                   (execute! {:builder-fn result-set/as-unqualified-lower-maps}))]
-    (map adapter/db->internal result)))
+  (let [execute! (partial jdbc/execute! (db))]
+    (-> (sql/select :name :code :dy :document :quota-amount)
+        (sql/from :funds)
+        build
+        (execute! {:builder-fn result-set/as-unqualified-lower-maps}))))
 
 (s/defn create :- s/Bool
-  [fund :- s.in/CreateFund
+  [fund :- schema/Fund
    db]
   (let [execute! (partial jdbc/execute! (db))
         vals (juxt :name :code :document :dy)]
@@ -30,3 +28,18 @@
         first
         :next.jdbc/update-count
         (> 0))))
+
+(s/defn update :- s/Bool
+  [code :- s/Str
+   data :- schema/Fund
+   db]
+  (let [update! (partial jdbc-sql/update! (db))]
+    (update! :funds data {:code code})))
+
+(s/defn set-revenues :- s/Bool
+  [code :- s/Str
+   revenues :- [schema/FundRevenue]
+   db]
+  (let [insert! (partial jdbc-sql/insert-multi! (db))
+        values (map #(vector code (:base_price %) (:date %) (:dy %) (:value %)) revenues)]
+    (insert! :revenues [:code :base_price :date :dy :value] values)))
