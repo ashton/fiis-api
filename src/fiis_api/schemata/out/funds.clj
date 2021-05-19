@@ -3,5 +3,6 @@
 
 (def Fund {:code s/Str
            :name s/Str
-           (s/optional-key :document) s/Str
-           (s/optional-key :dy) s/Num})
+           :document (s/maybe s/Str)
+           :dy (s/maybe s/Num)
+           :quota_amount (s/maybe s/Int)})
