@@ -18,8 +18,3 @@
    db]
   (database/update code data db))
 
-(s/defn set-fund-revenues :- s/Bool
-  [code :- s/Str
-   data :- [s.in/FundRevenue]
-   db]
-  (database/set-revenues code data db))

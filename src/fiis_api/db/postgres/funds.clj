@@ -35,11 +35,3 @@
    db]
   (let [update! (partial jdbc-sql/update! (db))]
     (update! :funds data {:code code})))
-
-(s/defn set-revenues :- s/Bool
-  [code :- s/Str
-   revenues :- [schema/FundRevenue]
-   db]
-  (let [insert! (partial jdbc-sql/insert-multi! (db))
-        values (map #(vector code (:base_price %) (:date %) (:dy %) (:value %)) revenues)]
-    (insert! :revenues [:code :base_price :date :dy :value] values)))
