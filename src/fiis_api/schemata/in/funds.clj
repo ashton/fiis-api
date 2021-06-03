@@ -11,9 +11,3 @@
                      :code s/Str
                      :document s/Str
                      :dy   BigDecimal}))
-
-(def FundRevenue
-  {:base-price BigDecimal
-   :date Long
-   :dy BigDecimal
-   :value BigDecimal})
