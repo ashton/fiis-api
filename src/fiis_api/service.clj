@@ -3,6 +3,8 @@
             [fiis-api.diplomat.http-in :as http.in]
             [fiis-api.schemata.in.funds :as funds.schema.in]
             [fiis-api.schemata.out.funds :as funds.schema.out]
+            [fiis-api.schemata.in.historical-data :as historical-data.schema.in]
+            [fiis-api.schemata.out.historical-data :as historical-data.schema.out]
             [fiis-api.schemata.in.revenues :as revenues.schema.in]
             [muuntaja.core :as m]
             [reitit.coercion :as coercion]
@@ -42,10 +44,16 @@
                                    :parameters {:body funds.schema.in/CreateFund}
                                    :handler http.in/create-fund
                                    :responses {200 {:body nil}}}}]
+                 ["/funds/history", {:post {:name ::fund-historical-data
+                                            :parameters {:body historical-data.schema.in/HistoricalData}
+                                            :responses {201 {:body historical-data.schema.out/HistoricalData}}
+                                            :handler http.in/add-fund-historical-data}
+                                     :conflicting true}]
                  ["/funds/:code" {:patch {:name ::update-fund
                                           :parameters {:body funds.schema.in/UpdateFund :path {:code s/Str}}
                                           :responses {204 {:body nil}}
-                                          :handler http.in/update-fund}}]
+                                          :handler http.in/update-fund}
+                                  :conflicting true}]
                  ["/funds/:code/revenues" {:put {:name ::set-fund-revenues
                                                  :parameters {:body revenues.schema.in/CreateFundRevenueList
                                                               :path {:code s/Str}}

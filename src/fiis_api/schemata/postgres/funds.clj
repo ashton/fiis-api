@@ -1,7 +1,7 @@
 (ns fiis-api.schemata.postgres.funds
-  (:require [schema.core :as s]
-            [fiis-api.models.funds :as model]))
+  (:require [clojure.set :refer [rename-keys]]
+            [fiis-api.models.funds :as model]
+            [schema.core :as s]))
 
-(s/defschema Fund model/fund-skeleton)
-
-(s/defschema FundRevenue model/fund-revenue-skeleton)
+(s/defschema Fund
+  (rename-keys model/fund-skeleton {:quota-amount :quota_amount}))

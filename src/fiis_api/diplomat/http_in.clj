@@ -1,8 +1,10 @@
 (ns fiis-api.diplomat.http-in
   (:require  [schema.core :as s]
              [fiis-api.controllers.funds :as funds.controller]
+             [fiis-api.controllers.historical-data :as historical-data.controller]
              [fiis-api.controllers.revenues :as revenues.controller]
              [fiis-api.adapters.funds :as funds.adapter]
+             [fiis-api.adapters.historical-data :as historical-data.adapter]
              [fiis-api.adapters.revenues :as revenues.adapter]
              [fiis-api.schemata.out.funds :as schema.out]))
 
@@ -24,6 +26,13 @@
   (let [database (:database deps)]
     (funds.controller/update-fund (:code path) body (:ds database))
     {:status 204}))
+
+(defn add-fund-historical-data
+  [{deps :deps body :body-params}]
+  (let [database (:database deps)
+        model-data (historical-data.adapter/external->model body)
+        result (historical-data.controller/create-historical-data model-data (:ds database))]
+    {:status 201 :body (historical-data.adapter/model->external result)}))
 
 (defn set-fund-revenues
   [{deps :deps body :body-params path :path-params}]
