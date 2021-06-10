@@ -1,5 +1,6 @@
 (ns fiis-api.db.postgres.funds
   (:require [fiis-api.schemata.postgres.funds :as schema]
+            [fiis-api.adapters.funds :as funds.adapters]
             [honeysql.format :refer [format] :rename {format build}]
             [honeysql.helpers :as sql]
             [next.jdbc :as jdbc]
@@ -10,10 +11,11 @@
 (s/defn list-all :- [schema/Fund]
   [db]
   (let [execute! (partial jdbc/execute! (db))]
-    (-> (sql/select :name :code :dy :document :quota-amount)
+    (-> (sql/select :name :code :dy :document :quota_amount)
         (sql/from :funds)
         build
-        (execute! {:builder-fn result-set/as-unqualified-lower-maps}))))
+        (execute! {:builder-fn result-set/as-unqualified-lower-maps})
+        (#(map funds.adapters/db->model %)))))
 
 (s/defn create :- s/Bool
   [fund :- schema/Fund
