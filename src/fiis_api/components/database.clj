@@ -10,13 +10,17 @@
   (start [component]
     (let [config (:config component)
           host (get-in config [:data :database-host])
+          port (get-in config [:data :database-port])
           user (get-in config [:data :database-user])
           database (get-in config [:data :database-name])
           password (get-in config [:data :database-password])
+          ssl (get-in config [:data :database-ssl])
           db-component (connection/component ComboPooledDataSource {:dbtype "postgresql"
                                                                     :dbname database
                                                                     :host host
+                                                                    :port port
                                                                     :user user
+                                                                    :ssl (boolean (Boolean/valueOf ssl))
                                                                     :password password})]
       (assoc component :next-component db-component)
       (assoc component :ds (component/start db-component))))

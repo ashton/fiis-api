@@ -6,4 +6,4 @@
    :date s/Str
    :last_price BigDecimal
    (s/optional-key :dy) BigDecimal
-   (s/optional-key :p-vp) BigDecimal})
+   (s/optional-key :p_vp) BigDecimal})

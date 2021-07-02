@@ -6,6 +6,8 @@
 (s/defschema CreateFundRevenue
   (-> model/revenue-skeleton
       (st/dissoc :code)
-      (st/assoc :date s/Str)))
+      (st/assoc :date s/Str)
+      (st/assoc (s/optional-key :dy) BigDecimal)
+      (st/assoc (s/optional-key :base-price) BigDecimal)))
 
 (s/defschema CreateFundRevenueList [CreateFundRevenue])

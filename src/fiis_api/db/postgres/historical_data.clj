@@ -15,7 +15,6 @@
         (sql/values [(vals data)])
         build
         execute!
-        (doto println)
         first
         :next.jdbc/update-count
         (> 0))))

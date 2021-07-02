@@ -11,4 +11,4 @@
         get-other-values (juxt :base_price :date :dy :value)
         get-vals (fn [rev] (cons code (get-other-values rev)))
         values (map get-vals revenues)]
-    (insert! :revenues [:code :base_price :date :dy :value] values)))
+    (seq? (insert! :revenues [:code :base_price :date :dy :value] values))))
