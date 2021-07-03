@@ -7,6 +7,7 @@ CREATE TABLE historical_data (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     code text NOT NULL REFERENCES funds(code),
     p_vp numeric(15,5),
+    dy numeric,
     last_price numeric(15,5) NOT NULL,
     date date NOT NULL
 );

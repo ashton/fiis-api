@@ -6,7 +6,6 @@
 CREATE TABLE funds (
     code text PRIMARY KEY,
     name text NOT NULL,
-    dy numeric,
     document text,
     quota_amount integer
 );
