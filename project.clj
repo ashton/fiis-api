@@ -13,7 +13,7 @@
                  [com.stuartsierra/component "1.0.0"]
                  [prismatic/schema "1.1.12"]
                  [metosin/schema-tools "0.12.3"]
-                 [honeysql "1.0.461"]
+                 [com.github.seancorfield/honeysql "2.0.0-rc3"]
                  [com.github.seancorfield/next.jdbc "1.1.646"]
                  [org.postgresql/postgresql "42.2.10"]
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]

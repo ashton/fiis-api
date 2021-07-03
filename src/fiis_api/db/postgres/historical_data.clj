@@ -1,7 +1,6 @@
 (ns fiis-api.db.postgres.historical-data
-  (:require [schema.core :as s]
-            [honeysql.format :refer [format] :rename {format build}]
-            [honeysql.helpers :as sql]
+            [honey.sql :refer [format] :rename {format build}]
+            [honey.sql.helpers :as sql]
             [next.jdbc :as jdbc]
             [fiis-api.schemata.postgres.historical-data :as schema]))
 
