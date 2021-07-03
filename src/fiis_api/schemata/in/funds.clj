@@ -9,5 +9,4 @@
 (def UpdateFund
   (st/optional-keys {:name  s/Str
                      :code s/Str
-                     :document s/Str
-                     :dy   BigDecimal}))
+                     :document s/Str}))

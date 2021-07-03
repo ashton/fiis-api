@@ -13,7 +13,7 @@
 (s/defn list-all :- [model/Fund]
   [db]
   (let [execute! (partial jdbc/execute! (db))]
-    (-> (sql/select :name :code :dy :document :quota_amount)
+    (-> (sql/select :name :code :document :quota_amount)
         (sql/from :funds)
         build
         (execute! {:builder-fn result-set/as-unqualified-lower-maps})
