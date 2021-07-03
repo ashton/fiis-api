@@ -40,3 +40,10 @@
         model-data (map revenues.adapter/external->model body)]
     (revenues.controller/set-fund-revenues (:code path) model-data (:ds database))
     {:status 204}))
+
+(defn funds-explorer
+  [{deps :deps}]
+  (let [database (:database deps)
+        result (historical-data.controller/explorer (:ds database))]
+    {:status 200
+     :body (map historical-data.adapter/explorer-model->external result)}))

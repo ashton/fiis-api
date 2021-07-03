@@ -49,6 +49,10 @@
                                             :responses {201 {:body historical-data.schema.out/HistoricalData}}
                                             :handler http.in/add-fund-historical-data}
                                      :conflicting true}]
+                 ["/funds/explorer" {:get {:name ::funds-explorer
+                                          :responses {200 {:body [historical-data.schema.out/FundExplorerItem]}}
+                                          :handler http.in/funds-explorer}
+                                    :conflicting true}]
                  ["/funds/:code" {:patch {:name ::update-fund
                                           :parameters {:body funds.schema.in/UpdateFund :path {:code s/Str}}
                                           :responses {204 {:body nil}}

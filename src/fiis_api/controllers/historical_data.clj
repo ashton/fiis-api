@@ -10,3 +10,7 @@
   (let [db-data (historical-data.adapters/model->db historical-data)]
     (when (database/create-historical-data db-data db)
       historical-data)))
+
+(s/defn explorer :- [model/FundExplorerItem]
+  [db]
+  (database/explore-funds db))

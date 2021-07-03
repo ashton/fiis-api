@@ -24,3 +24,15 @@
   (-> model
       (rename-keys {:p-vp :p_vp :last-price :last_price})
       (update :date t/sql-date)))
+
+(s/defn explore-db->explore-model :- schema.model/FundExplorerItem
+  [fund :- schema.db/HistoricalData]
+  (-> fund
+      (rename-keys {:p_vp :p-vp :last_price :last-price})
+      (update :date t/local-date)))
+
+(s/defn explorer-model->external :- schema.out/FundExplorerItem
+  [model :- schema.model/FundExplorerItem]
+  (-> model
+      (rename-keys {:p-vp :p_vp :last-price :last_price})
+      (update :date #(t/format "yyyy-MM-dd" %))))
