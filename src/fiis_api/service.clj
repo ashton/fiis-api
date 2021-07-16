@@ -13,6 +13,7 @@
             [reitit.ring.coercion]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [ring.middleware.reload]
+            [ring.middleware.cors :refer [wrap-cors]]
             [schema.core :as s]))
 
 (defn- wrap-deps
@@ -50,9 +51,9 @@
                                             :handler http.in/add-fund-historical-data}
                                      :conflicting true}]
                  ["/funds/explorer" {:get {:name ::funds-explorer
-                                          :responses {200 {:body [historical-data.schema.out/FundExplorerItem]}}
-                                          :handler http.in/funds-explorer}
-                                    :conflicting true}]
+                                           :responses {200 {:body [historical-data.schema.out/FundExplorerItem]}}
+                                           :handler http.in/funds-explorer}
+                                     :conflicting true}]
                  ["/funds/:code" {:patch {:name ::update-fund
                                           :parameters {:body funds.schema.in/UpdateFund :path {:code s/Str}}
                                           :responses {204 {:body nil}}
@@ -71,4 +72,7 @@
                                      ring.middleware.reload/wrap-reload
                                      reitit.ring.coercion/coerce-request-middleware
                                      reitit.ring.coercion/coerce-response-middleware
-                                     [wrap-deps deps]]}})))
+                                     [wrap-deps deps]
+                                     [wrap-cors
+                                      :access-control-allow-origin [#".*"]
+                                      :access-control-allow-methods [:get :post :patch :put]]]}})))

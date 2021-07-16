@@ -6,6 +6,7 @@
                  [metosin/reitit-core "0.5.13"]
                  [metosin/reitit-ring "0.5.13"]
                  [ring "1.9.3"]
+                 [ring-cors "0.1.13"]
                  [metosin/reitit-schema "0.5.13"]
                  [metosin/reitit-middleware "0.5.13"]
                  [metosin/reitit-swagger-ui "0.5.13"]
